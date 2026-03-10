@@ -1,1 +1,35 @@
-<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Call Sign Generator</title>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            display: flex;\n            flex-direction: column;\n            align-items: center;\n            justify-content: center;\n            height: 100vh;\n            background-color: #f0f0f0;\n        }\n        button {\n            padding: 10px 20px;\n            font-size: 16px;\n            cursor: pointer;\n            background-color: #4CAF50;\n            color: white;\n            border: none;\n            border-radius: 5px;\n            transition: background-color 0.3s;\n        }\n        button:hover {\n            background-color: #45a049;\n        }\n        #callSignDisplay {\n            margin-top: 20px;\n            font-size: 24px;\n            font-weight: bold;\n        }\n    </style>\n</head>\n<body>\n    <h1>Random Call Sign Generator</h1>\n    <button onclick="generateCallSign()">Generate Call Sign</button>\n    <div id="callSignDisplay"></div>\n    <script>\n        function generateCallSign() {\n            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';\n            const randomLetters = letters.charAt(Math.floor(Math.random() * letters.length)) + \n                                letters.charAt(Math.floor(Math.random() * letters.length)) + \n                                letters.charAt(Math.floor(Math.random() * letters.length));\n            const randomNumbers = Math.floor(Math.random() * 90) + 10; // Generates a number between 10-99\n            document.getElementById('callSignDisplay').innerText = randomLetters + '-' + randomNumbers;\n        }\n    </script>\n</body>\n</html>\n
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call Sign Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        button { padding: 10px 20px; }
+    </style>
+</head>
+<body>
+    <h1>Call Sign Generator</h1>
+    <button id="generate">Generate Call Sign</button>
+    <h2 id="call-sign"></h2>
+
+    <script>
+        function generateCallSign() {
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const numbers = '0123456789';
+            let callSign = '';
+            for (let i = 0; i < 3; i++) {
+                callSign += letters.charAt(Math.floor(Math.random() * letters.length));
+            }
+            for (let i = 0; i < 2; i++) {
+                callSign += numbers.charAt(Math.floor(Math.random() * numbers.length));
+            }
+            document.getElementById('call-sign').innerText = 'Generated Call Sign: ' + callSign;
+        }
+
+        document.getElementById('generate').addEventListener('click', generateCallSign);
+    </script>
+</body>
+</html>
