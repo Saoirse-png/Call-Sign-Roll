@@ -12,12 +12,16 @@
         h2 { color: #333; }
         .section { margin-top: 15px; padding: 10px; background-color: #f0f0f0; border-left: 4px solid #333; }
         .locations { border-left-color: #0066cc; background-color: #e8f4f8; }
+        .button-group { margin: 10px 0; }
     </style>
 </head>
 <body>
     <h1>Call Sign Generator</h1>
-    <button id="generateWithName">Generate Call Sign + Name + Ability + Locations</button>
-    <button id="exportBtn" style="display:none;">Export as Document</button>
+    <div class="button-group">
+        <button id="generateWithName">Generate Call Sign + Name + Ability + Locations</button>
+        <button id="copyBtn" style="display:none;">Copy to Clipboard</button>
+        <button id="downloadBtn" style="display:none;">Download as Text</button>
+    </div>
     
     <div class="result">
         <h2 id="call-sign"></h2>
@@ -79,14 +83,8 @@
             return locations;
         }
 
-        function exportDocument() {
-            if (!currentData.callSign) {
-                alert('Generate a character first!');
-                return;
-            }
-
-            const docContent = `
-CALL SIGN CHARACTER SHEET
+        function getDocumentContent() {
+            return `CALL SIGN CHARACTER SHEET
 =========================
 
 Call Sign: ${currentData.callSign}
@@ -97,9 +95,30 @@ Description: ${currentData.ability.description}
 
 Starting Locations: ${currentData.locations.join(', ')}
 
-Generated: ${new Date().toLocaleString()}
-            `.trim();
+Generated: ${new Date().toLocaleString()}`;
+        }
 
+        function copyToClipboard() {
+            if (!currentData.callSign) {
+                alert('Generate a character first!');
+                return;
+            }
+
+            const docContent = getDocumentContent();
+            navigator.clipboard.writeText(docContent).then(() => {
+                alert('Character data copied to clipboard!');
+            }).catch(() => {
+                alert('Failed to copy to clipboard');
+            });
+        }
+
+        function downloadDocument() {
+            if (!currentData.callSign) {
+                alert('Generate a character first!');
+                return;
+            }
+
+            const docContent = getDocumentContent();
             const element = document.createElement('a');
             element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(docContent));
             element.setAttribute('download', `${currentData.name.replace(/ /g, '_')}_CallSign.txt`);
@@ -128,10 +147,12 @@ Generated: ${new Date().toLocaleString()}
             locationsDiv.innerHTML = '<strong>Locations:</strong> ' + locations.join(', ');
             locationsDiv.style.display = 'block';
 
-            document.getElementById('exportBtn').style.display = 'inline-block';
+            document.getElementById('copyBtn').style.display = 'inline-block';
+            document.getElementById('downloadBtn').style.display = 'inline-block';
         });
 
-        document.getElementById('exportBtn').addEventListener('click', exportDocument);
+        document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
+        document.getElementById('downloadBtn').addEventListener('click', downloadDocument);
     </script>
 </body>
 </html>
