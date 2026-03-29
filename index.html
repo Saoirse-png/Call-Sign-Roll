@@ -2,15 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Call Sign Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        button { padding: 10px 20px; margin: 10px 0; }
+        .result { margin-top: 20px; }
+        h2 { color: #333; }
+    </style>
 </head>
 <body>
     <h1>Call Sign Generator</h1>
     <button id="generateWithName">Generate Call Sign + Name</button>
+    
+    <div class="result">
+        <h2 id="call-sign"></h2>
+        <h2 id="name"></h2>
+    </div>
+
     <script>
+        const firstNames = ['Evelyn', 'Casey', 'Gael', 'Éibhleann', 'Morgan', 'Finn', 'Eriu', 'Orlaith', 'Cillian', 'Saoirse', 'Róisín', 'Lorcán', 'Caoimhe', 'Síofra', 'Niall', 'Rowan', 'Niamh', 'Seamus', 'Seánán', 'Eoghan', 'Tadhgán', 'Neala', 'Brian', 'Clodagh', 'Eithne', 'Seán', 'Faelwen', 'Maeve', 'Padraig', 'Kai', 'Diarmuid', 'Eamon', 'Luna', 'Ór', 'Colm'];
+        
+        const lastNames = ['McCarthy', 'Wild', 'Harper', 'Gallagher', 'Doyle', 'O\'Asissi', 'Murray', 'Byrne', 'Calendris', 'Tierney', 'O\'Thuaidh', 'Yeats'];
+
+        function generateCallSign() {
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const numbers = '0123456789';
+            let callSign = '';
+            for (let i = 0; i < 3; i++) {
+                callSign += letters.charAt(Math.floor(Math.random() * letters.length));
+            }
+            callSign += '-';
+            for (let i = 0; i < 2; i++) {
+                callSign += numbers.charAt(Math.floor(Math.random() * numbers.length));
+            }
+            return callSign;
+        }
+
+        function generateName() {
+            const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+            const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+            return `${firstName} ${lastName}`;
+        }
+
         document.getElementById('generateWithName').addEventListener('click', function() {
-            // Your function to generate the call sign with name here.
+            const callSign = generateCallSign();
+            const name = generateName();
+            document.getElementById('call-sign').innerText = 'Call Sign: ' + callSign;
+            document.getElementById('name').innerText = 'Name: ' + name;
         });
     </script>
 </body>
