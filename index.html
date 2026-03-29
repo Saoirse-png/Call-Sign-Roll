@@ -7,15 +7,26 @@
     <title>Call Sign Generator</title>
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; }
-        button { padding: 10px 20px; }
+        button { padding: 10px 20px; margin: 10px 0; }
+        .result { margin-top: 20px; }
+        h2 { color: #333; }
     </style>
 </head>
 <body>
     <h1>Call Sign Generator</h1>
     <button id="generate">Generate Call Sign</button>
-    <h2 id="call-sign"></h2>
+    <button id="generateWithName">Generate Call Sign + Name</button>
+    
+    <div class="result">
+        <h2 id="call-sign"></h2>
+        <h2 id="name"></h2>
+    </div>
 
     <script>
+        const firstNames = ['Evelyn', 'Casey', 'Gael', 'Éibhleann', 'Morgan', 'Finn', 'Eriu', 'Orlaith', 'Cillian', 'Saoirse', 'Róisín', 'Lorcán', 'Caoimhe', 'Síofra', 'Niall', 'Rowan', 'Niamh', 'Seamus', 'Seánán', 'Eoghan', 'Tadhgán', 'Neala', 'Brian', 'Clodagh', 'Eithne', 'Seán', 'Faelwen', 'Maeve', 'Padraig', 'Kai', 'Diarmuid', 'Eamon', 'Luna', 'Ór', 'Colm'];
+        
+        const lastNames = ['McCarthy', 'Wild', 'Harper', 'Gallagher', 'Doyle', 'O\'Asissi', 'Murray', 'Byrne', 'Calendris', 'Tierney', 'O\'Thuaidh', 'Yeats'];
+
         function generateCallSign() {
             const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             const numbers = '0123456789';
@@ -27,10 +38,27 @@
             for (let i = 0; i < 2; i++) {
                 callSign += numbers.charAt(Math.floor(Math.random() * numbers.length));
             }
-            document.getElementById('call-sign').innerText = 'Generated Call Sign: ' + callSign;
+            return callSign;
         }
 
-        document.getElementById('generate').addEventListener('click', generateCallSign);
+        function generateName() {
+            const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+            const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+            return `${firstName} ${lastName}`;
+        }
+
+        document.getElementById('generate').addEventListener('click', function() {
+            const callSign = generateCallSign();
+            document.getElementById('call-sign').innerText = 'Call Sign: ' + callSign;
+            document.getElementById('name').innerText = '';
+        });
+
+        document.getElementById('generateWithName').addEventListener('click', function() {
+            const callSign = generateCallSign();
+            const name = generateName();
+            document.getElementById('call-sign').innerText = 'Call Sign: ' + callSign;
+            document.getElementById('name').innerText = 'Name: ' + name;
+        });
     </script>
 </body>
 </html>
